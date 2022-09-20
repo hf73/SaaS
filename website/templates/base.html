@@ -5,13 +5,47 @@
         <meta name="viewport" content="width-device-width, initial-scale=1" />
 
         <!-- CSS bootstrap -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+        
+        <!-- Jinja templating that can be changed through child template. this is specifically for home -->
+        <title>{% block title %}Home{% endblock %}</title>
         
         
-        <title>{% block title %} {% endblock %}</title>
         
-    
     </head>
-    <body></body>
+    <body>
+
+      <!-- bootstrap nav bar-->
+      <nav class="navbar navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <a class="navbar-brand" href="#">Navbar</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-item nav-link" id= "home" href="/">Home</a>
+              <a class="nav-item nav-link" id= "login" href="/login">Login</a>
+              <a class="nav-item nav-link" id= "register" href="/register">Register</a>
+              <a class="nav-item nav-link" id= "logout" href="/logout">Logout</a>
+            </div>
+          </div>
+        </nav>
+      </nav>
+      <div class="container">
+        <!-- adds a template that can be changed specifcally for each page-->
+        {% block content %}
+        {% endblock %}
+      </div>
+        <!-- script that loads in file from static folder,  { { lets you write python expressions -->
+        <script
+        type="text/javascript"
+        src="{{ url_for('static', filename='index.js') }}"
+        ></script>
+
+
+        <!--JS bootstrap -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    </body>
 
 </html>
