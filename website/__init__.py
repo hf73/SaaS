@@ -1,6 +1,7 @@
 from nturl2path import url2pathname
 from flask import Flask
 
+#creates the flask app
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'key'
