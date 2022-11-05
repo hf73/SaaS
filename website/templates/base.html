@@ -32,8 +32,28 @@
           </div>
         </nav>
       </nav>
+      <!--pop up for error-->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if message %}
+        {% for category, message in messages %} <!--loops through the alerts using python-->
+        {%if category == 'error'%}
+        <div class="alert alert-danger alert-dismissable fade show" role = "alert"> <!--creates an alert popup-->
+          {{ message }}
+          <button type ="button" class="close" data-dismiss="alert"> <!--creates a button to dismiss alerts-->
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!--pop up for success-->
+        {%else%}
+        <div class="alert alert-success alert-dismissable fade show" role = "alert"> <!--creates an alert popup-->
+          {{ message }}
+          <button type ="button" class="close" data-dismiss="alert"> <!--creates a button to dismiss alerts-->
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endif %} {% endfor %} {% endif %} {% endwith %}
       <div class="container">
-        <!-- adds a template that can be changed specifcally for each page-->
+        <!-- jinja adds a template that can be changed specifcally for each page-->
         {% block content %}
         {% endblock %}
       </div>
