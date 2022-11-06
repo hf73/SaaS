@@ -1,14 +1,27 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash #helps to hash passwords
+from . import db
+
 
 auth = Blueprint('auth', __name__)
 
 #added method to allow POST and GET requests, default only GET
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    data = request.form #has all the data that was sent as a form, such as email and pass
-    print(data)
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        user = User.query.filter_by(email=email).first()#filters database and look by specific field, email
+        if user:
+            if check_password_hash(user.password, password): #hashes password and checks it against the hashed password
+                flash('Logged in successfully!', category='success')
+            else:
+                flash('Incorrect password, try again', category="error")
+        else:
+            flash('Email does not exists.', category='error')
+
     return render_template("login.html", boolean=True)
 
 @auth.route('/logout')
@@ -22,8 +35,12 @@ def register():
         username = request.form.get('username')
         password = request.form.get('password')
 
+        #checks if email already exists
+        user = User.query.filter_by(email=email).first()
+        if user:
+            flash('Email already exists.', category='error')
         #checks length of email and returns error
-        if len(email) < 5:
+        elif len(email) < 5:
             flash('Email must be greater than 5 characters', category='error')
         #checks length of username and returns error
         elif len(username) < 3:
@@ -34,6 +51,7 @@ def register():
         else:
             #add user to database. hash password as sha256 hashing algorithm
             new_user = User(email=email, username=username, password=generate_password_hash(password, method='sha256'))
+           
             db.session.add(new_user) #adds user to the database
             db.session.commit() #commits the user to the database
             flash('Successfully created account!', category='success')
