@@ -1,6 +1,6 @@
 import pika 
 
-parameters = pika.URLParameters('amqp://admin:admin@localhost:5672/%2f')
+parameters = pika.URLParameters('amqp://guest:guest@localhost:5672/%2f')
 connection = pika.BlockingConnection(parameters)
 channel = connection.channel()
 
