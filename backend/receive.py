@@ -1,7 +1,8 @@
 import pika, sys, os
 
-parameters = pika.URLParameters('amqp://guest:guest@localhost:5672/%2f')
-connection = pika.BlockingConnection(pika.ConnectionParameters(host='172.29.161.118',port=5672,virtual_host='/'))
+credentials = pika.PlainCredentials(username='danny', password='123', erase_on_connect=True)
+parameters = pika.ConnectionParameters(host='10.147.18.152', port=5672, virtual_host='490', credentials=credentials)
+connection = pika.BlockingConnection(parameters)
 channel = connection.channel()
 
 def main():
