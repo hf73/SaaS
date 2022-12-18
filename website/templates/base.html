@@ -9,8 +9,7 @@
         
         <!-- Jinja templating that can be changed through child template. this is specifically for home -->
         <title>{% block title %}Home{% endblock %}</title>
-        
-        
+    
         
     </head>
     <body>
@@ -18,26 +17,47 @@
       <!-- bootstrap nav bar-->
       <nav class="navbar navbar-dark bg-dark">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a class="navbar-brand" href="#">Navbar</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span clqass="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <a class="nav-item nav-link" id= "home" href="/">Home</a>
-              <a class="nav-item nav-link" id= "login" href="/login">Login</a>
-              <a class="nav-item nav-link" id= "register" href="/register">Register</a>
-              <a class="nav-item nav-link" id= "logout" href="/logout">Logout</a>
+                <!-- makes sure user is logged in before being able to see certain aspects-->
+                <a class="nav-item nav-link" id= "home" href="/">Home</a>
+                <a class="nav-item nav-link" id= "login" href="/login">Login</a>
+                <a class="nav-item nav-link" id= "register" href="/register">Register</a>
+                <a class="nav-item nav-link" id= "logout" href="/logout">Logout</a>
+
+
             </div>
           </div>
         </nav>
       </nav>
+
+      <!-- creates flash messages-->
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %} {% if category ==
+        'error' %}
+        <div class="alert alert-danger alter-dismissable fade show" role="alert">
+          {{ message }}
+        
+        </div>
+        {% else %}
+        <div class="alert alert-success alter-dismissable fade show" role="alert">
+          {{ message }}
+        </div>
+        {% endif %} {% endfor %} {% endif %} {% endwith %}
+
+      <div class="container">
+        {% block content %}
+        {% endblock %}
+      </div>
       <!--pop up for error-->
       {% with messages = get_flashed_messages(with_categories=true) %}
       {% if message %}
         {% for category, message in messages %} <!--loops through the alerts using python-->
         {%if category == 'error'%}
-        <div class="alert alert-danger alert-dismissable fade show" role = "alert"> <!--creates an alert popup-->
+        <div class="alert alert-danger alert-dismissible fade show" role = "alert"> <!--creates an alert popup-->
           {{ message }}
           <button type ="button" class="close" data-dismiss="alert"> <!--creates a button to dismiss alerts-->
             <span aria-hidden="true">&times;</span>
@@ -45,7 +65,7 @@
         </div>
         <!--pop up for success-->
         {%else%}
-        <div class="alert alert-success alert-dismissable fade show" role = "alert"> <!--creates an alert popup-->
+        <div class="alert alert-success alert-dismissible fade show" role = "alert"> <!--creates an alert popup-->
           {{ message }}
           <button type ="button" class="close" data-dismiss="alert"> <!--creates a button to dismiss alerts-->
             <span aria-hidden="true">&times;</span>
@@ -53,9 +73,7 @@
         </div>
         {% endif %} {% endfor %} {% endif %} {% endwith %}
       <div class="container">
-        <!-- jinja adds a template that can be changed specifcally for each page-->
-        {% block content %}
-        {% endblock %}
+
       </div>
         <!-- script that loads in file from static folder,  { { lets you write python expressions -->
         <script
