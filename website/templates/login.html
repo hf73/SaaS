@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block title %}Login{% endblock %}{% block content %}
+<h1>Login</h1>
+
+<!--Method POST sends a post request to the backend -->
+<form method="POST">
+    <div class="form-group">
+      <label for="email">Email address</label>
+      <input 
+        type="email" 
+        class="form-control" 
+        id="email" 
+        aria-describedby="emailHelp" 
+        name="email"
+        placeholder="Enter email">
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input 
+        type="password" 
+        class="form-control" 
+        id="password" 
+        name="password"
+        placeholder="Enter Password">
+    </div>
+    <br />  
+    <button type="submit" class="btn btn-primary">Login</button>
+  </form>
+{% endblock %}

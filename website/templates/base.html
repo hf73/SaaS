@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+</html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width-device-width, initial-scale=1" />
+
+        <!-- CSS bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+        
+        <!-- Jinja templating that can be changed through child template. this is specifically for home -->
+        <title>{% block title %}Home{% endblock %}</title>
+    
+        
+    </head>
+    <body>
+
+      <!-- bootstrap nav bar-->
+      <nav class="navbar navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span clqass="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <!-- makes sure user is logged in before being able to see certain aspects-->
+                <a class="nav-item nav-link" id= "home" href="/">Home</a>
+                <a class="nav-item nav-link" id= "login" href="/login">Login</a>
+                <a class="nav-item nav-link" id= "register" href="/register">Register</a>
+                <a class="nav-item nav-link" id= "logout" href="/logout">Logout</a>
+
+
+            </div>
+          </div>
+        </nav>
+      </nav>
+
+      <!-- creates flash messages-->
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %} {% if category ==
+        'error' %}
+        <div class="alert alert-danger alter-dismissable fade show" role="alert">
+          {{ message }}
+        
+        </div>
+        {% else %}
+        <div class="alert alert-success alter-dismissable fade show" role="alert">
+          {{ message }}
+        </div>
+        {% endif %} {% endfor %} {% endif %} {% endwith %}
+
+      <div class="container">
+        {% block content %}
+        {% endblock %}
+      </div>
+      <!--pop up for error-->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if message %}
+        {% for category, message in messages %} <!--loops through the alerts using python-->
+        {%if category == 'error'%}
+        <div class="alert alert-danger alert-dismissible fade show" role = "alert"> <!--creates an alert popup-->
+          {{ message }}
+          <button type ="button" class="close" data-dismiss="alert"> <!--creates a button to dismiss alerts-->
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!--pop up for success-->
+        {%else%}
+        <div class="alert alert-success alert-dismissible fade show" role = "alert"> <!--creates an alert popup-->
+          {{ message }}
+          <button type ="button" class="close" data-dismiss="alert"> <!--creates a button to dismiss alerts-->
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endif %} {% endfor %} {% endif %} {% endwith %}
+      <div class="container">
+
+      </div>
+        <!-- script that loads in file from static folder,  { { lets you write python expressions -->
+        <script
+        type="text/javascript"
+        src="{{ url_for('static', filename='index.js') }}"
+        ></script>
+
+
+        <!--JS bootstrap -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    </body>
+
+</html>
